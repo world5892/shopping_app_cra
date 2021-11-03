@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useContext } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Navbar from "./Navbar.js";
+import Home from "./Home.js";
+import About from "./About.js";
+import Products from "./Products.js";
+import Cart from "./Cart.js";
+import ProductDetails from "./ProductDetails.js";
+import { AppContext, AppProvider } from './AppContext.js';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const { cart } = useContext(AppContext);
+
+  useEffect(() => {
+    if (cart) localStorage.setItem('products', JSON.stringify(cart));
+  }, [cart]);
+
+  return (<>
+    <BrowserRouter>
+      <Navbar />
+      <div className="container">
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/about">
+            <About />
+          </Route>
+          <Route exact path="/products">
+            <Products />
+          </Route>
+          <Route exact path="/cart">
+            <Cart cart={cart} />
+          </Route>
+          <Route path="/products/:id">
+            <ProductDetails />
+          </Route>
+        </Switch>
+      </div>
+    </BrowserRouter>
+  </>);
 }
 
-export default App;
+function AppWrapper() {
+  return <AppProvider>
+    <App />
+  </AppProvider>
+}
+
+export default AppWrapper;
