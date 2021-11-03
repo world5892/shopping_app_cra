@@ -1,10 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Route, NavLink, useParams, useRouteMatch } from "react-router-dom";
 import ProductDetailInfo from "./ProductDetailInfo";
 import ProductDetailNutrition from "./ProductDetailNutrition";
 import ProductDetailStorage from "./ProductDetailStorage";
 import useFetch from "./useFetch";
-import { AppContext } from "./AppContext";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState();
